@@ -8,6 +8,7 @@ on:
     # build time, so they must trigger a rebuild even though docs_dir is .build.
     paths:
       - "docs/**"
+      - "overrides/**"
       - "guides/**"
       - "classification/**"
       - "data/**"
@@ -42,19 +43,13 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Stage guides/, classification/ and data/ for MkDocs
-        run: python scripts/build-docs.py
-
-      - name: Check nav entries and relative links
-        run: python scripts/check-docs.py
-
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
       # Not --strict on purpose: MkDocs treats intra-page anchor warnings as
       # fatal there, and scripts/check-docs.py already fails on real breakage.
       - name: Build site
-        run: mkdocs build --clean
+        run: python scripts/build-site.py
 
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -31,6 +31,8 @@ Usage:
 from __future__ import annotations
 
 import shutil
+import gzip
+import json
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
@@ -74,10 +76,15 @@ def build(quiet: bool = False) -> Path:
     if (cls / "README.md").exists():
         (cls / "README.md").replace(cls / "index.md")
 
+    cat = json.loads(gzip.decompress((REPO / "data/catalogue.json.gz").read_bytes()))
+    keys = {(i["class_code"], i["subclass_code"], i["zh"], i["en"]) for i in cat["items"]}
+    tokens = {"{{catalogue_items}}": f"{len(keys):,}", "{{catalogue_groups}}": str(len(cat["subclasses"])), "{{catalogue_classes}}": str(len(cat["classes"])), "{{catalogue_revision}}": cat.get("revision", "unspecified")}
     touched = 0
     for md in BUILD.rglob("*.md"):
         text = md.read_text(encoding="utf-8")
         new = text
+        for token, value in tokens.items():
+            new = new.replace(token, value)
         for old, repl in REWRITES:
             new = new.replace(old, repl)
         if new != text:

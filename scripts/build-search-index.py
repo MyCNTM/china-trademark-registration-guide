@@ -8,9 +8,10 @@ The shape is deliberately terse — this file is downloaded by the browser, so
 repeated words cost real bandwidth:
 
     {
-      "generated": "2026-10",
+      "generated": "2026-11-18",
+      "source_revision": "cnipa-20261019",
       "classes":    [["01", "化学原料", "Chemicals", "class-01-chemicals.md"], ...],
-      "subclasses": [["0102", "0101", "工业气体，单质"], ...],        # [class, code, zh]
+      "subclasses": [[1, "0101", "工业气体，单质"], ...],        # [class, code, zh]
       "items":      [[1, "0101", "结晶硅", "crystalline silicon", "C010006"], ...]
     }
 
@@ -60,13 +61,14 @@ def main(src: Path) -> int:
         if cls is None:
             continue
         key = (cls, i["subclass_code"], i["zh"], i["en"])
-        if key in seen:                      # 3 exact duplicates in the source
+        if key in seen:                      # Remove exact duplicates if present.
             continue
         seen.add(key)
         items.append([cls, i["subclass_code"], i["zh"], i["en"], i["code"]])
 
     payload = {
-        "generated": "2026-10",
+        "generated": "2026-11-18",
+        "source_revision": cat.get("revision", ""),
         "classes": [[c["code"], c["zh"], c["en"], pages.get(c["code"], "")] for c in classes],
         "subclasses": subclasses,
         "items": items,

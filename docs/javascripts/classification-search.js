@@ -1,7 +1,7 @@
 /* ==========================================================================
    China trademark classification search
    --------------------------------------------------------------------------
-   Static, client-side search over 32,665 goods and services items.
+   Static, client-side search over the generated catalogue snapshot.
    Data: data/search-index.json (2.2 MB raw, ~580 KB gzipped), built by
    scripts/build-search-index.py.
 
@@ -13,7 +13,7 @@
      apparatus; only if that yields nothing do we fall back to word-prefix.
    * Results are grouped by class and each group is ranked by hits, because the
      real question is "which class do I file in", not "find one item".
-   * The application list shows money: CNIPA includes 10 items per class at
+   * The application list shows money: our package includes 10 items per class at
      USD 199, each extra item is USD 10.
    ========================================================================== */
 
@@ -134,17 +134,22 @@
       var raw = window.localStorage.getItem(STORE_KEY);
       if (!raw) return;
       var parsed = JSON.parse(raw);
-      if (!parsed || parsed.generated !== INDEX_GENERATION) {
-        /* index rebuilt with different wording — old keys would be ghosts */
-        window.localStorage.removeItem(STORE_KEY);
-        return;
-      }
+      if (!parsed || !Array.isArray(parsed.items)) return;
+      var needsReview = parsed.generated !== INDEX_GENERATION;
       (parsed.items || []).forEach(function (item) {
-        if (item && item.c && item.zh) {
+        if (item && item.c && item.zh && state.classByCode[pad(item.c)]) {
           item.c = pad(item.c);
-          state.selection.set(keyOf(item), item);
+          var current = state.itemsByKey[keyOf(item)];
+          if (!current) needsReview = true;
+          state.selection.set(keyOf(item), current || item);
         }
       });
+      if (needsReview && state.selection.size) {
+        var notice = document.createElement('p');
+        notice.className = 'tm-saved-notice';
+        notice.textContent = 'The catalogue has been updated. Your saved list is retained; matching terms use current translations. Review any older terms before filing.';
+        root.insertBefore(notice, root.firstChild);
+      }
     } catch (err) {
       /* storage blocked or corrupt: start clean */
     }
@@ -440,7 +445,7 @@
     if (!state.query && !state.active.size) {
       el.results.innerHTML = entryState();
       el.more.hidden = true;
-      el.status.textContent = "32,665 items · 45 classes · 495 sub-classes";
+      el.status.textContent = state.items.length.toLocaleString() + " items · " + state.classes.length + " classes · " + Object.keys(state.subZh).length + " similar groups";
       return;
     }
 
@@ -543,7 +548,7 @@
 
     if (!groups.size) {
       el.selbody.innerHTML = '<p class="tm-selbody__empty">Add items with <b>+</b>. ' +
-        "CNIPA includes 10 items per class at USD " + CLASS_FEE +
+        "Our package includes 10 items per class at USD " + CLASS_FEE +
         "; each extra item is USD " + EXTRA_FEE + ".</p>";
       return;
     }
@@ -592,7 +597,7 @@
 
   function syncUrl() {
     var params = new URLSearchParams();
-    if (state.query) params.set("q", state.query);
+    if (state.query) params.set("goods", state.query);
     if (state.active.size) params.set("class", Array.from(state.active).sort().join(","));
     var qs = params.toString();
     window.history.replaceState(null, "", window.location.pathname + (qs ? "?" + qs : ""));
@@ -897,7 +902,7 @@
 
   function readUrl() {
     var params = new URLSearchParams(window.location.search);
-    var q = params.get("q");
+    var q = params.get("goods") || params.get("q");
     var cls = params.get("class");
 
     if (cls) {

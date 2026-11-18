@@ -1,68 +1,38 @@
-# Madrid Protocol vs Direct CNIPA Filing: Which Route for China?
+# Madrid designation or direct filing in China?
 
-If you already hold an international registration, Madrid looks attractive: one form, one currency, one renewal. But for a China filing specifically, Madrid is usually the slower and more fragile option. Here is the decision logic we use with clients.
+*Reviewed 18 November 2026.*
 
----
+Both routes can protect a trademark in China. The appropriate route depends on your existing application, countries of interest, goods specification and ability to handle local objections. Neither route guarantees acceptance or is always faster or cheaper.
 
-## Side by side
+## Compare the practical differences
 
-| | Direct CNIPA filing | Madrid designation of China |
+| Question | Direct CNIPA application | Madrid designation of China |
 |---|---|---|
-| Filing basis | Your own application, no dependency | Requires a base application/registration in your home country |
-| Who you deal with | A CNIPA-registered Chinese agent | WIPO, which forwards to CNIPA |
-| Language | English instructions, filed in Chinese | English/French/Spanish at WIPO; CNIPA examines in Chinese |
-| Cost structure | Fixed per class (USD 199 through us) | CHF base fee + China individual fee + your home agent's fee |
-| Typical time to registration | **7–9 months** in practice (**12–15** statutory ceiling) | 12–18 months |
-| Dependency on base mark | None | Yes — for 5 years, the designation can fall with the base mark ("central attack") |
-| Scope control | You define classes and items per filing | Item scope constrained by your international registration |
-| Refusal handling | Direct correspondence with CNIPA through your agent | Refusal relayed via WIPO, with WIPO's deadline mechanics |
-| Renewal | Per country, every 10 years | Single renewal through WIPO |
-| Adding classes later | New application | New designation or subsequent designation |
+| Starting point | A Chinese application through the appropriate filing channel | Eligibility through an office of origin and a basic application or registration |
+| Goods specification | Prepared for the Chinese filing | Limited by the basic mark and international registration scope |
+| Other territories | Separate territorial filings | Several designated territories can be managed through the Madrid System |
+| Local examination | CNIPA examines the application | CNIPA still examines the China designation under Chinese rules |
+| Objections | Local response procedures apply | A provisional refusal can require local representation and a response |
+| Budget | Direct application package plus any separately quoted proceedings | WIPO/origin-office fees and any local work required |
 
-## When Madrid is the right call
+## When direct filing may be useful
 
-- You already have an international registration and want China added cheaply as part of a multi-country bundle.
-- You need one renewal date and one currency for a large portfolio, and administrative simplicity beats speed.
-- Your base mark is solid and unlikely to be challenged in the next five years.
-- Your China filing is defensive rather than launch-critical.
+A China-focused launch, a need to tailor the Chinese goods list, or goods outside your basic mark's scope may favour a direct application. We still need to check the applicant, mark and intended goods before recommending the route.
 
-## When direct filing wins
+## When Madrid may be useful
 
-- **You want to file in China now and your home application is not ready.** Madrid cannot start without a base filing.
-- **Speed matters.** A launch, a trade fair, a factory agreement — seven to nine months in practice beats twelve to eighteen through WIPO.
-- **You want item-level control.** China's sub-class system rewards a precise goods/services list. Madrid ties your China scope to your international registration, which is often drafted for a different market.
-- **You want to avoid central attack.** If your base mark is weak, or your home agent is handling an opposition against it, Madrid puts your China rights on the same fault line.
-- **You expect a refusal.** Refusals routed through WIPO add correspondence layers and tight deadlines. Direct representation is cleaner to argue.
+Madrid can simplify administration when you already have an eligible basic mark and need protection in several territories. Central renewals and record changes can be useful, but designation does not replace each territory's examination.
 
-## The refusal question, in detail
+An international registration depends on its basic mark for the first five years. Changes or loss of protection in the basic mark can affect the international registration. A subsequent designation can extend territorial coverage within the international registration's scope; it cannot simply add unrelated new goods.
 
-China is one of the more active examiners in the Madrid system, and Madrid designations to China receive refusal notifications at a meaningful rate — often for the same reasons as direct filings (descriptiveness, earlier similar marks), plus scope problems inherited from the international registration.
+## China-specific goods selection still matters
 
-What differs is the plumbing. In a direct filing, your Chinese agent receives the notice, advises you, drafts the review, and files it — one conversation. In a Madrid designation, the notice goes to WIPO, WIPO notifies your home agent, your home agent notifies you, and instructions travel back the same way. Every hop burns days against a fixed deadline, and the Chinese-language drafting still has to happen at the end of the chain.
+Translate commercial descriptions carefully and check the Chinese similar-group structure. A class heading or broad English term should not be treated as confirmation that every product in that class is covered.
 
-If your mark has any meaningful refusal risk, that asymmetry alone often justifies direct filing.
+See [WIPO's Madrid FAQ](https://www.wipo.int/en/web/madrid-system/faq/) for the system rules and [our classification guide](05-nice-classification-guide-china.md) for the Chinese goods-planning issues. Bring your basic application details and intended territories when requesting a comparison.
 
-## Cost comparison, realistically
+[Compare costs](02-china-trademark-cost-and-official-fees.md) · [Request a preliminary search](https://portal.mycntm.com/enquiry)
 
-Madrid is not automatically cheaper. A Madrid designation to China typically involves:
-
-- WIPO basic fee (CHF 653 for a black-and-white mark, more for colour)
-- China individual fee per class (CHF 168 for the first class, then per class)
-- Your home attorney's handling fee
-- Later: a Chinese agent's fee anyway, if a refusal arrives
-
-A direct filing at USD 199/class all-inclusive with the official fee inside it is, for one or two classes, usually the lower total — and it is a fixed number you can budget against.
-
-## The pragmatic answer for most brand owners
-
-**File directly in China, and use Madrid only when you are already inside the system and China is one line item among many.** If you later build a large multi-country portfolio, Madrid renewals become genuinely convenient — that is a portfolio-management argument, not an argument for how to get your first Chinese registration.
-
-A common hybrid: direct CNIPA filing for the core mark in your key classes now, then Madrid for later additions where speed is irrelevant.
 
 ---
-
-**Not sure which route fits?** [Send us your international registration number](https://china-trademark.net/contact.php) or [request a quote](https://portal.mycntm.com/?page=support&intent=quote&service=registration) and we will tell you which is cheaper and faster for your specific classes.
-
-**Related guides:** [How long registration takes](01-how-long-does-china-trademark-registration-take.md) · [Cost and official fees](02-china-trademark-cost-and-official-fees.md) · [Recovering your brand from a squatter](04-china-trademark-squatters-recover-your-brand.md)
-
-*General information, not legal advice. WIPO fee figures change; check the current schedule before budgeting.*
+General information. Confirm the applicable rules and specification for your particular filing.

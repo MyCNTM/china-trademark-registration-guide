@@ -4,10 +4,10 @@
 Source of truth: portal.mycntm.com/resources/classification/catalogue.json.gz
 Outputs:
   classification/README.md            index of the 45 classes + dataset docs
-  classification/class-XX-slug.md     one page per class (sub-classes + items)
+  classification/class-XX-slug.md     one page per class (similar groups + items)
   data/classes.csv                    45 rows
-  data/subclasses.csv                 495 rows
-  data/nice-classification-zh-en.csv  one row per item (~32.7k)
+  data/subclasses.csv                 one row per similar group
+  data/nice-classification-zh-en.csv  one row per item
   data/nice-classification.json       full catalogue, compact JSON
   data/catalogue.json.gz              byte-identical copy of the source
 
@@ -29,9 +29,9 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 SITE = "https://china-trademark.net"
 
-QUOTE = "https://portal.mycntm.com/?page=support&intent=quote&service=registration"
-ENQUIRY = "https://portal.mycntm.com/?page=enquiry"
-REVIEWED = "October 2026"
+QUOTE = "https://portal.mycntm.com/support?intent=quote&service=registration"
+ENQUIRY = "https://portal.mycntm.com/enquiry"
+REVIEWED = "18 November 2026"
 
 STOPWORDS = {"and", "or", "of", "for", "the", "to", "by", "in", "with", "not", "other", "than"}
 DROP_PREFIX = {"preparations", "services", "products", "apparatus", "machines"}
@@ -150,7 +150,8 @@ def build(src: Path) -> None:
     # ---- one page per class -------------------------------------------------
     page_names: dict[str, str] = {}
     for c in classes:
-        page_names[c["code"]] = f"class-{c['code']}-{slugify(c['en'])}.md"
+        existing = sorted((REPO / "classification").glob(f"class-{c['code']}-*.md"))
+        page_names[c["code"]] = existing[0].name if existing else f"class-{c['code']}-{slugify(c['en'])}.md"
 
     for idx, c in enumerate(classes):
         code = c["code"]
@@ -176,8 +177,8 @@ def build(src: Path) -> None:
             "",
             " · ".join(nav),
             "",
-            f"> **Nice Classification, Class {code}** — {len(subs)} sub-classes (类似群) and **{len(its):,} goods/services items**, "
-            "Chinese–English, as used by CNIPA (China). Part of the "
+            f"> **Nice Classification, Class {code}** — {len(subs)} similar groups (类似群) and **{len(its):,} goods/services items**, "
+            "Chinese wording with English reference translations. Confirm current acceptance before filing. Part of the "
             f"[45-class bilingual classification dataset](README.md) from [china-trademark.net]({SITE}/).",
             "",
             "| 中文名称 | English heading |",
@@ -192,8 +193,8 @@ def build(src: Path) -> None:
             "",
             f"{c['en_desc']}",
             "",
-            "> A China application covers **10 items per class** (extra items are charged individually), and protection "
-            "generally runs per sub-class rather than across the whole class — see "
+            "> Our standard filing package includes **up to 10 items per class**; extra items are charged separately. "
+            "Similar-group codes help organise a specification but do not determine protection by themselves — see "
             "[the class selection guide](../guides/05-nice-classification-guide-china.md).",
             "",
             "## Sub-classes in this class",
@@ -221,7 +222,7 @@ def build(src: Path) -> None:
                 )
             lines.append("")
         if orphan:
-            lines += ["### Items without a listed sub-class", "", "| # | 中文 | English | 编码 |", "|---:|---|---|---|"]
+            lines += ["### Items without a listed similar group", "", "| # | 中文 | English | 编码 |", "|---:|---|---|---|"]
             for n, item in enumerate(orphan, 1):
                 lines.append(f"| {n} | {md_escape(item['zh'])} | {md_escape(item['en'])} | {item['code'] or ''} |")
             lines.append("")
@@ -230,12 +231,12 @@ def build(src: Path) -> None:
             "---",
             "",
             f"**Filing in Class {code}?** [Get a fixed quote]({QUOTE}) — "
-            "USD 199 per class, CNIPA official fee included, English service.",
+            "USD 199 per mark per class for up to 10 items, official fee included; additional items USD 10 each. [Current services](https://china-trademark.net/services.php).",
             "",
             "[All 45 classes](README.md) · [Class selection guide](../guides/05-nice-classification-guide-china.md) · "
             f"[Cost and fees](../guides/02-china-trademark-cost-and-official-fees.md) · [Home]({SITE}/)",
             "",
-            f"*Data reviewed {REVIEWED}. Official classification is published by CNIPA / WIPO; this copy is provided for "
+            f"*Snapshot synced {REVIEWED}. Official classification is published by CNIPA / WIPO; this copy is provided for "
             "reference and may lag the latest edition.*",
             "",
         ]
@@ -253,28 +254,24 @@ def build(src: Path) -> None:
     idx = [
         "# Nice Classification China — all 45 classes in Chinese and English",
         "",
-        "> **完整的中文商标分类对照表** — 45 个类别的中英文类名、类别说明、495 个类似群（sub-classes）与 "
-        f"**{total_items:,} 条商品/服务项目中英对照**，与中国国家知识产权局（CNIPA）使用的分类体系一致。"
+        f"> **中文商标分类参考表** — {len(classes)} 个类别、{len(subclasses)} 个类似群（similar groups）与 "
+        f"**{total_items:,} 条商品/服务项目中英对照**，供商品选择和检索参考，正式申请前需确认项目可接受性。"
         "由 [china-trademark.net](%s/) 维护，可自由转载（CC BY 4.0）。" % SITE,
         "",
-        "A complete, machine-readable Chinese–English version of the Nice Classification used by CNIPA: "
-        "45 classes, 495 sub-classes and every listed goods/services item in both languages — "
+        "A bilingual reference snapshot of the MY CNTM classification catalogue: "
+        f"{len(classes)} classes, {len(subclasses)} similar groups and {total_items:,} listed items — "
         "as **Markdown pages**, **CSV** and **JSON**.",
         "",
-        "**[← Back to the main guide](../README.md)** · **[Free availability check](https://portal.mycntm.com/?page=enquiry)** · "
+        "**[← Back to the main guide](../README.md)** · **[Free availability check](https://portal.mycntm.com/enquiry)** · "
         "**[Class selection guide](../guides/05-nice-classification-guide-china.md)**",
         "",
         "---",
         "",
         "## 为什么必须看「类似群」",
         "",
-        "中国把每个类别再划分为若干**类似群**（sub-classes）。同类别但不同类似群的两个商品，通常**不构成类似商品**，"
-        "因此一标一类只选 10 个项目时，如果全部集中在一个类似群，其余类似群等于没有保护。本表把每个商品项按类似群归组，"
-        "就是为了让你一眼看出「我的 10 项到底覆盖了哪几个类似群」。",
+        "类似群用于辅助商品和服务的分类与近似判断，但并不等于自动保护整个群，也不能仅凭不同群号认定互不类似。应结合具体项目、区分表注释及跨群关系审查。",
         "",
-        "In China, protection generally extends across a **sub-class**, not across the whole class. Two items in the same "
-        "class but different sub-classes are not automatically similar — which is why a flat 10-item selection can leave "
-        "gaps. Items below are grouped by sub-class for exactly that reason.",
+        "Similar groups support classification and similarity analysis. A group code does not automatically protect every item in that group; different groups can still have relevant relationships. Review the actual specification, notes and cross-references.",
         "",
         "## 45 个类别 / The 45 classes",
         "",
@@ -295,7 +292,7 @@ def build(src: Path) -> None:
         "|---|---|---|",
         f"| [`data/nice-classification-zh-en.csv`](../data/nice-classification-zh-en.csv) | 全部商品项，一行一项，含类号/类似群/编码/中英文 | {total_items:,} |",
         "| [`data/classes.csv`](../data/classes.csv) | 45 个类别的中英文类名与类别说明 | 45 |",
-        "| [`data/subclasses.csv`](../data/subclasses.csv) | 495 个类似群代码与中文名称 | 495 |",
+        f"| [`data/subclasses.csv`](../data/subclasses.csv) | 类似群代码与中文名称 | {len(subclasses)} |",
         "| [`data/nice-classification.json`](../data/nice-classification.json) | 同一份数据的 JSON 版（classes / subclasses / items） | — |",
         "| [`data/catalogue.json.gz`](../data/catalogue.json.gz) | 源文件（gzip JSON，与 portal.mycntm.com 完全一致） | — |",
         "",
@@ -351,7 +348,7 @@ def build(src: Path) -> None:
         "",
         f"- 分类数据与 [china-trademark.net 商标分类查询工具]({SITE}/class-finder.php) 同源，"
         "原始文件为 `data/catalogue.json.gz`（逐字节复制，未作改写）。",
-        f"- 数据核对时间：{REVIEWED}。官方分类表由 CNIPA / WIPO 发布并会随版本更新，本仓库为便于检索的副本，"
+        f"- 数据同步时间：{REVIEWED}。官方分类表由 CNIPA / WIPO 发布并会随版本更新，本仓库为便于检索的副本，"
         "可能滞后于最新版；正式申请前请以官方公布版本为准。",
         "- 本仓库提供的是分类信息，不构成法律意见。",
         "",
